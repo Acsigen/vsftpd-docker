@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  proftpd:
+    image: proftpd_local:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./conf/proftpd.conf:/etc/proftpd/proftpd.conf
+      - ./data:/home/${PROFTPD_USER}/data
+    ports:
+      - "2121:21"
+      - "49152-49153:49152-49153"
+    restart: unless-stopped
+    container_name: proftpd
