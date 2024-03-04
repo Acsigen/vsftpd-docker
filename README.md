@@ -11,3 +11,5 @@ Change the `./conf/vsftpd.conf` according to your needs. By default, the configu
 If you want to run it as is. Please change the `pasv_address=<your-host-ip>` to match your host IP in order to enable the passive mode.
 
 If you want to run the container in `host` network mode. Please comment out the `pasv_address=<your-host-ip>` setting.
+
+The `fix-conf-perm.sh` script changes the permissions for the configuration file on host in order to make changes. These permissions are then properly configured inside the container.

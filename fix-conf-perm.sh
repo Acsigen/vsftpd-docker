@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo chown ubuntu: ./conf/vsftpd.conf
+sudo chown "$USER": ./conf/vsftpd.conf
