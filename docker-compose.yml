@@ -1,16 +1,23 @@
 version: "3.8"
 
 services:
-  proftpd:
-    image: proftpd_local:latest
+  vsftpd:
+    image: vsftpd_local:latest
+    restart: no
+    container_name: vsftpd
+    # network_mode: "host"
     build:
       context: .
       dockerfile: Dockerfile
+    # command: ["sleep", "infinity"]
+    environment:
+      - FTP_USER
+      - FTP_PASSWORD
     volumes:
-      - ./conf/proftpd.conf:/etc/proftpd/proftpd.conf
-      - ./data:/home/${PROFTPD_USER}/data
+      - ./conf/vsftpd.conf:/etc/vsftpd/vsftpd.conf
+      - ./cert:/opt/ftp-cert
+      - ./data:/opt/ftp-data
     ports:
-      - "2121:21"
-      - "49152-49153:49152-49153"
-    restart: unless-stopped
-    container_name: proftpd
+      - "2121:2121"
+      - "2020:2020"
+      - "34000-34001:34000-34001"

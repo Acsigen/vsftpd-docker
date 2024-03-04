@@ -1,16 +1,17 @@
-FROM ubuntu:latest AS app
-
-ARG PROFTPD_USER
-ARG PROFTPD_PASSWORD
+FROM alpine:latest AS app
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt update && apt install -y proftpd openssl
+RUN apk add vsftpd openssl wget vim
 
-RUN useradd -m -s /bin/bash -p $(openssl passwd -1 "$PROFTPD_PASSWORD") $PROFTPD_USER
+RUN mkdir /docker-entrypoint
+RUN mkdir /var/ftp
+COPY docker-entrypoint.sh /docker-entrypoint/docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint/docker-entrypoint.sh
 
-EXPOSE 21
-EXPOSE 49152
-EXPOSE 49153
+EXPOSE 2020
+EXPOSE 2121
+EXPOSE 34000
+EXPOSE 34001
 
-CMD ["proftpd", "-n", "-d", "debug"]
+CMD ["/docker-entrypoint/docker-entrypoint.sh"]
