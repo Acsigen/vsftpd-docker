@@ -8,6 +8,9 @@ echo "Creating $FTP_USER..."
 # useradd -m -s /bin/bash -p "$(openssl passwd -1 "$FTP_PASSWORD")" "$FTP_USER"
 adduser -h "/home/$FTP_USER" -s /usr/sbin/nologin -S "$FTP_USER"
 passwd "$FTP_USER" -d "$FTP_PASSWORD"
+addgroup "$FTP_USER"
+addgroup "$FTP_USER" "$FTP_USER"
+
 touch /etc/vsftpd.chroot_list && echo "$FTP_USER" > /etc/vsftpd.chroot_list
 
 chown -R "$FTP_USER:$FTP_USER" "/opt/ftp-data"
